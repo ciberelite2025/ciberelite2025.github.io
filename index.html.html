@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LISTA DE CLIENTE 2025🛩️</title>
+    <link rel="icon" href="LOGOWIFI.png" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #529AEA;
+            color: white;
+            text-align: center;
+            position: relative; /* Asegura que el logo se posicione relativo al body */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centra horizontalmente */
+            justify-content: center; /* Centra verticalmente */
+            min-height: 100vh; /* Asegura que la altura mínima sea 100% de la ventana */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+            background-color: white;
+            color: black;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: center; /* Centra horizontalmente */
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            width: 100%; /* Asegura que la barra de herramientas ocupe todo el ancho */
+            position: relative; /* Para que se pueda posicionar el logo */
+        }
+
+        #logo {
+            position: absolute;
+            left: 30px;
+            top: -20px;
+            width: 200px;
+            height: auto;
+            filter: drop-shadow(0px 2px 20px black);
+        }
+
+        h1 {
+            margin: 0px; /* Eliminar margen superior e inferior */
+            font-size: 48px;
+            filter: drop-shadow(0px 0px 10px black);
+            text-align: center; /* Centro el texto del h1 */
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            margin-right: 10px;
+            width: 210px;
+            border-radius: 15px;
+            border: 1px solid #ccc;
+            filter: drop-shadow(0px 2px 20px white);
+        }
+
+        button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            background-color: green;
+            color: white;
+            border: 2px solid black;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #003d80;
+        }
+
+        /* Checkbox styles */
+        input[type="checkbox"] {
+            display: none; /* Ocultamos el checkbox real */
+        }
+
+        .checkbox-label {
+            position: relative;
+            cursor: pointer;
+            padding: 5px;
+            border: 2px solid #529AEA;
+            display: inline-block;
+            border-radius: 5px;
+            width: 30px;
+            height: 30px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Estado no pagado */
+        .checkbox-label:before {
+            content: '';
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            border-radius: 3px;
+            background-color: transparent;
+            border: 2px solid #ff3a3a;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* El chequeo con palomita */
+        input[type="checkbox"]:checked + .checkbox-label:before {
+            background-color: #28a745;
+            border-color: #fff;
+            animation: pop 0.2s ease forwards;
+        }
+
+        /* Palomita que aparece en el checkbox */
+        input[type="checkbox"]:checked + .checkbox-label:after {
+            content: '✔';
+            color: white;
+            position: absolute;
+            top: 0;
+            left: 11px;
+            font-size: 24px;
+            display: block;
+            transition: opacity 0.2s ease;
+            opacity: 1;
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(0.8);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="toolbar">
+            <img src="LOGOWIFI.png" alt="Logo" id="logo">
+            <h1>LISTA DE CLIENTE CIBER ELITE 2025🛩️</h1>
+        </div>
+        
+        <div class="toolbar">
+            <div class="left-toolbar">
+                <label for="searchInput">Buscar cliente: </label>
+                <input type="text" id="searchInput" onkeyup="searchClient()" placeholder="Escribe el nombre del cliente...">
+                <button onclick="guardarCambios()">Guardar Cambios</button>
+                <input type="file" id="fileInput" accept=".json" style="display: none;">
+                <button onclick="cargarDatosDesdeArchivo()">Cargar Datos</button>
+                <button onclick="exportarDatos()">Exportar Datos</button>
+                <button onclick="borrarDatos()">Borrar Todos los Pagos</button>
+            </div>
+        </div>
+
+        <table id="clientesTable">
+            <thead>
+                <tr>
+                    <th>NUM</th>
+                    <th>Nombre</th>
+                    <th>Plan</th>
+                    <th>Costo</th>
+                    <th>Fecha de Corte</th>
+                    <th>Teléfono o Dirección</th>
+                    <th>Ene</th>
+                    <th>Feb</th>
+                    <th>Mar</th>
+                    <th>Abr</th>
+                    <th>Mayo</th>
+                    <th>Jun</th>
+                    <th>Jul</th>
+                    <th>Ago</th>
+                    <th>Sep</th>
+                    <th>Oct</th>
+                    <th>Nov</th>
+                    <th>Dic</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Se generará dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const clientes = [
+            { np: 1, nombre: "PROFE JERARDO DE LA CRUZ", plan: "BASICO", costo: "$400", fecha: "FIN DE/MES", telefono: "9671220121" },
+            { np: 2, nombre: "BLANCA WERA", plan: "BASICO", costo: "$400", fecha: "07C/MES", telefono: "9671378103" },
+            { np: 3, nombre: "EDGAR", plan: "BASICO", costo: "$400", fecha: "18C/MES", telefono: "9671400747" },
+            { np: 4, nombre: "JUAN TIBURSIO", plan: "BASICO", costo: "$400", fecha: "17C/MES", telefono: "9671406519" },
+            { np: 5, nombre: "PROF. JUAN GARCIA GOMEZ", plan: "BASICO", costo: "$400", fecha: "19C/MES", telefono: "9671355924" },
+            { np: 6, nombre: "CECILIA (SERCA DEL COBACH 58)", plan: "BASICO", costo: "$400", fecha: "20C/MES", telefono: "9672032867" },
+            { np: 7, nombre: "CESAR (DE LA IGRECIACRECIENDO EN GRACIA)", plan: "ENTRETENIMIENTO", costo: "$1600", fecha: "01C/MES", telefono: "9671387341" },
+            { np: 8, nombre: "MANUEL HERNANDEZ PEREZ", plan: "BASICO", costo: "$400", fecha: "17C/MES", telefono: "9671841235" },
+            { np: 9, nombre: "LIC. MANUEL LOPEZ", plan: "BASICO", costo: "$400", fecha: "25C/MES", telefono: "9633551679" },
+            { np: 10, nombre: "ALEXIS", plan: "ENTRETENIMIENTO", costo: "$500", fecha: "05C/MES", telefono: "9671694793" },
+            { np: 11, nombre: "ALFREDO ZAPATA", plan: "BASICO", costo: "$400", fecha: "03C/MES", telefono: "9671420077" },
+            { np: 12, nombre: "JUAN (DE TRES CRUCES)", plan: "BASICO", costo: "$400", fecha: "11C/MES", telefono: "9671134616" },
+            { np: 13, nombre: "MTRA. ANGELICA", plan: "BASICO", costo: "$400", fecha: "01C/MES", telefono: "9671254096" },
+            { np: 14, nombre: "DOÑA ROSA (DE CUCHULUMTIC)", plan: "BASICO", costo: "$400", fecha: "13C/MES", telefono: "9672872796" },
+            { np: 15, nombre: "HUGO (HIJO DE MTRA. MARI)", plan: "BASICO", costo: "$400", fecha: "21C/MES", telefono: "9671670862" },
+            { np: 16, nombre: "SAMUEL GARCIA GOMEZ", plan: "BASICO", costo: "$400", fecha: "02C/MES", telefono: "9671671622" },
+            { np: 17, nombre: "JORGE NAGERAS", plan: "BASICO", costo: "$400", fecha: "05C/MES", telefono: "9671672838" },
+            { np: 18, nombre: "MTRA. CITLALI AGUILAR", plan: "BASICO", costo: "$400", fecha: "23C/MES", telefono: "9671559762" },
+            { np: 19, nombre: "MTRA. GABRIELA HERNANDEZ", plan: "BASICO", costo: "$400", fecha: "16C/MES", telefono: "967376607" },
+            { np: 20, nombre: "ANTHONY VELASCO SANTIZ", plan: "ENTRETENIMIENTO", costo: "$500", fecha: "04C/MES", telefono: "671448266" },
+            { np: 21, nombre: "MOISES GARCIA GOMEZ", plan: "ENTRETENIMIENTO", costo: "$500", fecha: "05C/MES", telefono: "9673610085" },
+            { np: 22, nombre: "NICO BALCONERO", plan: "BASICO", costo: "$400", fecha: "19C/MES", telefono: "9671030876" },
+            { np: 23, nombre: "SEBASTIAN SANTIZ (ANT.MONTE)", plan: "BASICO", costo: "$400", fecha: "25C/MES", telefono: "9671840390" },
+            { np: 24, nombre: "HILDA PEREZ SANTIZ", plan: "BASICO", costo: "$400", fecha: "10C/MES", telefono: "" },
+            { np: 25, nombre: "PROFE SEBASTIAN PEREZ GONZALEZ", plan: "BASICO", costo: "$400", fecha: "11C/MES", telefono: "9676798572" },
+            { np: 26, nombre: "PETRONA CALVOS SANCHEZ", plan: "BASICO", costo: "$400", fecha: "19C/MES", telefono: "9574325772" },
+            { np: 27, nombre: "MIGUEL SANTIZ PEREZ", plan: "BASICO", costo: "$400", fecha: "19C/MES", telefono: "9671233318" },
+            { np: 28, nombre: "FELIPE LOPEZ ARCOTETE", plan: "BASICO", costo: "$400", fecha: "24C/MES", telefono: "5531889627" },
+            { np: 29, nombre: "DANIEL FLORES DIAZ", plan: "ENTRETENIMIENTO", costo: "$500", fecha: "01C/MES", telefono: "9672723446 9671930873" },
+            { np: 30, nombre: "FEDERICO (TIO DE WERO)", plan: "ENTRETENIMIENTO", costo: "$500", fecha: "05C/MES", telefono: "9191344242" },
+            { np: 31, nombre: "GABRIEL MARCELIN", plan: "BASICO", costo: "$400", fecha: "09C/MES", telefono: "9613179896" },
+            { np: 32, nombre: "MTRA. ROSA ALMINDA", plan: "BASICO", costo: "$400", fecha: "11C/MES", telefono: "9671844470" },
+            { np: 33, nombre: "FELIPE MARCELIN (TOSTADITAS)", plan: "BASICO", costo: "$400", fecha: "25C/MES", telefono: "9671279978" },
+            { np: 34, nombre: "SRA. DIANA (ESQUINA, PLAYA DEL CARMEN)", plan: "BASICO", costo: "$400", fecha: "05C/MES", telefono: "12345678901" },
+            { np: 35, nombre: "LIC. JUAN HERNANDEZ GOMEZ", plan: "BASICO", costo: "$400", fecha: "17C/MES", telefono: "9671468781" },
+            { np: 36, nombre: "MARIA LICIA CALVO", plan: "BASICO", costo: "$400", fecha: "28C/MES", telefono: "9673482471" },
+            { np: 37, nombre: "PROF. HERMELINDO", plan: "BASICO", costo: "$400", fecha: "20C/MES", telefono: "9671201519" },
+            { np: 38, nombre: "PROF. JAVIER PEREZ GUZMAN", plan: "BASICO", costo: "$400", fecha: "24C/MES", telefono: "9671742116" },
+            { np: 39, nombre: "MTRA. ROSA VERONICA", plan: "BASICO", costo: "$400", fecha: "04C/MES", telefono: "9618718782" },
+            { np: 40, nombre: "PROF. HERIBERTO DE LA TORRE", plan: "BASICO", costo: "$400", fecha: "01C/MES", telefono: "9676729090" },
+            { np: 41, nombre: "JUAN ANTONIO MALDONADO", plan: "BASICO", costo: "$400", fecha: "03C/MES", telefono: "9671336384" },
+            { np: 42, nombre: "NESTOR (FAMILIA SANCHEZ)", plan: "ENTRETENIMIENTO", costo: "$500", fecha: "06C/MES", telefono: "9671440017" },
+            { np: 43, nombre: "ADREGACIONES", plan: "DE LA NASA", costo: "$10,500", fecha: "31C/MES", telefono: "666-666-6669" }
+        ];
+
+        const tableBody = document.querySelector("#clientesTable tbody");
+
+        function cargarClientes() {
+            const estadoPagos = JSON.parse(localStorage.getItem("pagosClientes")) || {};
+
+            clientes.forEach(cliente => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${cliente.np}</td>
+                    <td>${cliente.nombre}</td>
+                    <td>${cliente.plan}</td>
+                    <td>${cliente.costo}</td>
+                    <td>${cliente.fecha}</td>
+                    <td>${cliente.telefono}</td>
+                    ${Array(12).fill(0).map((_, mes) => {
+                        const id = `${cliente.np}-${mes + 1}`;
+                        const checked = estadoPagos[id] ? "checked" : "";
+                        return `<td>
+                                    <input type="checkbox" data-id="${id}" id="${id}" ${checked} onchange="marcarCambio()">
+                                    <label class="checkbox-label" for="${id}"></label>
+                                </td>`;
+                    }).join('')}
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        let cambiosNoGuardados = false;
+
+        function marcarCambio() {
+            cambiosNoGuardados = true; 
+        }
+
+        function searchClient() {
+            const input = document.getElementById("searchInput").value.toLowerCase();
+            const rows = tableBody.getElementsByTagName("tr");
+
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName("td");
+                const name = cells[1].textContent.toLowerCase();
+
+                if (name.includes(input)) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+
+        function guardarCambios() {
+            const checkboxes = document.querySelectorAll("#clientesTable input[type='checkbox']");
+            const estadoPagos = {};
+
+            checkboxes.forEach(checkbox => {
+                estadoPagos[checkbox.dataset.id] = checkbox.checked;
+            });
+
+            localStorage.setItem("pagosClientes", JSON.stringify(estadoPagos));
+            alert("Cambios guardados correctamente.");
+            cambiosNoGuardados = false; 
+        }
+
+        function exportarDatos() {
+            const estadoPagos = JSON.parse(localStorage.getItem("pagosClientes")) || {};
+            const dataStr = JSON.stringify(estadoPagos);
+            
+            const blob = new Blob([dataStr], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "estado_pagos.json"; // Nombre del archivo
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            alert("Datos exportados correctamente.");
+        }
+
+        function cargarDatosDesdeArchivo() {
+            const input = document.getElementById('fileInput');
+            input.click();
+
+            input.onchange = (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const data = JSON.parse(e.target.result);
+                        localStorage.setItem("pagosClientes", JSON.stringify(data));
+                        alert("Datos cargados correctamente.");
+                        location.reload(); // Recargar la página para que los cambios tomen efecto
+                    };
+                    reader.readAsText(file);
+                }
+            };
+        }
+
+        function borrarDatos() {
+            localStorage.removeItem("pagosClientes"); // Eliminar los datos de pagos
+            alert("Todos los pagos han sido borrados."); // Notificar al usuario
+            location.reload(); // Recargar la página para que los cambios tomen efecto
+        }
+
+        window.onbeforeunload = function() {
+            if (cambiosNoGuardados) {
+                return "Tienes cambios no guardados. ¿Estás seguro de que quieres salir?";
+            }
+        };
+
+        cargarClientes();
+    </script>
+</body>
+
+</html>
